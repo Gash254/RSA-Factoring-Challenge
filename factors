@@ -1,28 +1,25 @@
 #!/usr/bin/python3
+""" My module for testing numbers and finding the factorization """
+import math
 from sys import argv
-from math import sqrt
-def factor(n):
-    if n % 2 == 0:
-        yield 2
-        while n % 2 == 0:
-            n //= 2
-    for i in range(3, int(sqrt(n)) + 1, 2):
-        if n % i == 0:
-            yield i
-            while n % i == 0:
-                n //= i
-    if n > 2:
-        yield n
 
 
-with open(argv[1]) as f:
+def factor(number, test_num):
+    """ Finds the values to return once a number has been found
+    """
+
+
+    print("{}={}*{}".format(number, (number // test_num), test_num))
+
+
+with open(argv[1], mode="r", encoding="UTF-8") as f:
     for line in f:
-        n = int(line)
-        print("{:d}=".format(n), end="")
-        if n % 2 == 0:
-            print("{}*2".format(n//2))
-            continue
-        for i in factor(n):
-            print("{}*{}".format(n//i, i))
-            break
-        print()
+        number = int(line)
+        if number % 2 == 0:
+            factor(number, 2)
+        else:
+            max_number_to_test = math.floor(math.sqrt(number))
+            for test_num in range(3, max_number_to_test + 1, 2):
+                if number % test_num == 0:
+                    factor(number, test_num)
+                    break
